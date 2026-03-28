@@ -15,6 +15,7 @@ Imports MediaFactory.Infrastructure
 Imports MediaFactory.Localization
 Imports MediaFactory.Models
 Imports MediaFactory.Services
+Imports MediaFactory.Utils
 
 Namespace ViewModels
     Public Class ProjectSessionViewModel
@@ -1696,7 +1697,7 @@ Namespace ViewModels
         End Sub
 
         Private Function PrepareOutputDirectory(createNewBatch As Boolean) As String
-            Dim outputsRoot = Path.Combine(AppContext.BaseDirectory, "Outputs", SanitizeFileName(ProjectName))
+            Dim outputsRoot = Path.Combine(AppPaths.OutputsRoot, SanitizeFileName(ProjectName))
             IO.Directory.CreateDirectory(outputsRoot)
 
             If createNewBatch OrElse String.IsNullOrWhiteSpace(LastOutputDirectory) OrElse Not IO.Directory.Exists(LastOutputDirectory) Then

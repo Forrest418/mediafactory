@@ -5,6 +5,7 @@ Imports System.Text.Json
 Imports System.Text.Json.Serialization.Metadata
 Imports Microsoft.Data.Sqlite
 Imports MediaFactory.Models
+Imports MediaFactory.Utils
 
 Namespace Services
     Public Class StudioPersistenceService
@@ -18,7 +19,7 @@ Namespace Services
         Private ReadOnly _databasePath As String
 
         Public Sub New()
-            Dim dataDirectory = Path.Combine(AppContext.BaseDirectory, "Data")
+            Dim dataDirectory = AppPaths.DataRoot
             Directory.CreateDirectory(dataDirectory)
             _databasePath = Path.Combine(dataDirectory, "studio.db")
             EnsureSchema()

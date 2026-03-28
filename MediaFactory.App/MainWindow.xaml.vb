@@ -52,7 +52,11 @@ Class MainWindow
     End Sub
 
     Protected Overrides Sub OnClosed(e As EventArgs)
-        MyBase.OnClosed(e)
-        _shell.Dispose()
+        Try
+            _shell.Dispose()
+        Finally
+            MyBase.OnClosed(e)
+            Application.Current?.Shutdown()
+        End Try
     End Sub
 End Class

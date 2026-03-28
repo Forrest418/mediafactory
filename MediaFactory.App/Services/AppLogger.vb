@@ -1,6 +1,7 @@
 Imports System.IO
 Imports System.Text
 Imports System.Threading
+Imports MediaFactory.Utils
 
 Namespace Services
     Public Class AppLogger
@@ -9,7 +10,7 @@ Namespace Services
         Private ReadOnly _logFilePath As String
 
         Public Sub New()
-            Dim logsRoot = Path.Combine(AppContext.BaseDirectory, "Logs", DateTime.Now.ToString("yyyyMMdd"))
+            Dim logsRoot = Path.Combine(AppPaths.LogsRoot, DateTime.Now.ToString("yyyyMMdd"))
             Directory.CreateDirectory(logsRoot)
 
             _logFilePath = Path.Combine(
