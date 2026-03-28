@@ -1,0 +1,87 @@
+﻿{
+  "planner": {
+    "selected_provider": "deepseek",
+    "deepseek": {
+      "display_name": "DeepSeek",
+      "model_options": [
+        "deepseek-chat",
+        "deepseek-reasoner"
+      ],
+      "api_key": "",
+      "base_url": "https://api.deepseek.com",
+      "model": "deepseek-chat"
+    },
+    "openai": {
+      "display_name": "OpenAI Compatible",
+      "model_options": [
+        "gpt-4.1-mini",
+        "gpt-4.1",
+        "gpt-4o-mini"
+      ],
+      "api_key": "",
+      "base_url": "https://api.openai.com/v1",
+      "model": "gpt-4.1-mini"
+    },
+    "qwen": {
+      "display_name": "Qwen",
+      "model_options": [
+        "qwen3.5-vl-plus",
+        "qwen-vl-max-latest"
+      ],
+      "api_key": "",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "model": "qwen3.5-vl-plus"
+    }
+  },
+  "vertex": {
+    "project_id": "your-gcp-project-id",
+    "location": "global",
+    "image_model": "gemini-3.1-flash-image-preview",
+    "service_account": {
+      "type": "service_account",
+      "project_id": "your-gcp-project-id",
+      "private_key_id": "",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nREPLACE_WITH_YOUR_PRIVATE_KEY\n-----END PRIVATE KEY-----\n",
+      "client_email": "your-service-account@your-gcp-project-id.iam.gserviceaccount.com",
+      "client_id": "",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      "client_x509_cert_url": "",
+      "universe_domain": "googleapis.com"
+    }
+  },
+  "image": {
+    "selected_provider": "gemini",
+    "openai": {
+      "display_name": "OpenAI Compatible",
+      "model_options": [
+        "gpt-image-1.5",
+        "gpt-image-1",
+        "gpt-image-1-mini"
+      ],
+      "api_key": "",
+      "base_url": "https://api.openai.com/v1",
+      "model": "gpt-image-1.5"
+    },
+    "qwen": {
+      "display_name": "Qwen",
+      "model_options": [
+        "qwen-image-2.0-pro"
+      ],
+      "api_key": "",
+      "base_url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+      "model": "qwen-image-2.0-pro"
+    },
+    "gemini": {
+      "display_name": "Gemini",
+      "model_options": [
+        "gemini-3.1-flash-image-preview",
+        "gemini-2.5-flash-image"
+      ],
+      "hint": "Leave Gemini API Key empty to use the Vertex settings from ModelProviders.local.json or ModelProviders.json.",
+      "api_key": "",
+      "model": "gemini-3.1-flash-image-preview"
+    }
+  }
+}

@@ -1,0 +1,298 @@
+<UserControl x:Class="Views.SystemSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="clr-namespace:MediaFactory.Localization">
+    <Grid Margin="0,0,4,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="{Binding CurrentPageTitle}" Style="{StaticResource SectionTitleStyle}" FontSize="32" />
+            <TextBlock Margin="0,6,0,0" Text="{Binding CurrentPageDescription}" Style="{StaticResource BodyTextStyle}" FontSize="13" />
+        </StackPanel>
+
+        <Border Grid.Row="2" Style="{StaticResource ShellCardStyle}" Padding="18">
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="{loc:Loc Settings.Title.General}" Style="{StaticResource SectionTitleStyle}" FontSize="18" />
+                    <TextBlock Margin="0,10,0,6" Text="{loc:Loc Settings.Language}" Foreground="#64748B" />
+                    <ComboBox Height="38"
+                              Padding="8,0"
+                              VerticalContentAlignment="Center"
+                              ItemsSource="{Binding LanguageOptions}"
+                              SelectedValuePath="Key"
+                              DisplayMemberPath="DisplayName"
+                              SelectedValue="{Binding LanguageCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="4" Style="{StaticResource ShellCardStyle}" Padding="20">
+            <TabControl>
+                <TabControl.Resources>
+                    <Style x:Key="CenteredComboBoxStyle" TargetType="ComboBox">
+                        <Setter Property="Height" Value="38" />
+                        <Setter Property="Padding" Value="8,0" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Padding" Value="16,8" />
+                        <Setter Property="FontFamily" Value="Microsoft YaHei UI Semibold" />
+                        <Setter Property="FontSize" Value="14" />
+                    </Style>
+                </TabControl.Resources>
+
+                <TabItem Header="{loc:Loc Settings.Tab.Models}">
+                    <TabItem.Resources>
+                        <Style x:Key="ModelProviderHintStyle" TargetType="TextBlock" BasedOn="{StaticResource BodyTextStyle}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="Margin" Value="0,6,0,0" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasHint}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style x:Key="ModelFieldComboStyle" TargetType="ComboBox" BasedOn="{StaticResource CenteredComboBoxStyle}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Setter Property="IsEditable" Value="True" />
+                            <Setter Property="StaysOpenOnEdit" Value="True" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasOptions}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style x:Key="ModelFieldTextStyle" TargetType="TextBox" BasedOn="{StaticResource EditorTextBoxStyle}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasOptions}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TabItem.Resources>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid Margin="0,16,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="14" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Left">
+                                    <TextBlock Text="{loc:Loc Settings.Models.Title}" Style="{StaticResource SectionTitleStyle}" FontSize="18" />
+                                    <TextBlock Margin="0,4,0,0" Text="{loc:Loc Settings.Models.Description}" Style="{StaticResource BodyTextStyle}" />
+                                </StackPanel>
+
+                                <Button DockPanel.Dock="Right"
+                                        Width="170"
+                                        Style="{StaticResource PrimaryActionButtonStyle}"
+                                        Content="{loc:Loc Settings.Models.Save}"
+                                        Click="SaveModelSettingsButton_Click" />
+                            </DockPanel>
+
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" Background="#F8FAFC" BorderBrush="#D9E2EF" BorderThickness="1" CornerRadius="14" Padding="16">
+                                    <StackPanel>
+                                        <TextBlock Text="{loc:Loc Settings.Models.PlannerCard}" Style="{StaticResource SectionTitleStyle}" FontSize="16" />
+                                        <TextBlock Margin="0,6,0,0" Text="{loc:Loc Settings.Models.PlannerHint}" Style="{StaticResource BodyTextStyle}" FontSize="12" TextWrapping="Wrap" />
+
+                                        <ItemsControl Margin="0,14,0,0" ItemsSource="{Binding PlannerProviderEditors}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Margin="0,0,0,12" Padding="14" Background="White" BorderBrush="#D9E2EF" BorderThickness="1" CornerRadius="12">
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource SectionTitleStyle}" FontSize="15" />
+                                                            <TextBlock Text="{Binding Hint}" Style="{StaticResource ModelProviderHintStyle}" />
+
+                                                            <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Fields}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <StackPanel Margin="0,0,0,12">
+                                                                            <TextBlock Text="{Binding DisplayName}" Foreground="#64748B" Margin="0,0,0,6" />
+                                                                            <Grid>
+                                                                                <ComboBox Style="{StaticResource ModelFieldComboStyle}"
+                                                                                          ItemsSource="{Binding Options}"
+                                                                                          Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                                <TextBox Style="{StaticResource ModelFieldTextStyle}"
+                                                                                         Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                            </Grid>
+                                                                        </StackPanel>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Grid.Column="2" Background="#F8FAFC" BorderBrush="#D9E2EF" BorderThickness="1" CornerRadius="14" Padding="16">
+                                    <StackPanel>
+                                        <TextBlock Text="{loc:Loc Settings.Models.ImageCard}" Style="{StaticResource SectionTitleStyle}" FontSize="16" />
+                                        <TextBlock Margin="0,6,0,0" Text="{loc:Loc Settings.Models.ImageHint}" Style="{StaticResource BodyTextStyle}" FontSize="12" TextWrapping="Wrap" />
+
+                                        <ItemsControl Margin="0,14,0,0" ItemsSource="{Binding ImageProviderEditors}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Margin="0,0,0,12" Padding="14" Background="White" BorderBrush="#D9E2EF" BorderThickness="1" CornerRadius="12">
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource SectionTitleStyle}" FontSize="15" />
+                                                            <TextBlock Text="{Binding Hint}" Style="{StaticResource ModelProviderHintStyle}" />
+
+                                                            <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Fields}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <StackPanel Margin="0,0,0,12">
+                                                                            <TextBlock Text="{Binding DisplayName}" Foreground="#64748B" Margin="0,0,0,6" />
+                                                                            <Grid>
+                                                                                <ComboBox Style="{StaticResource ModelFieldComboStyle}"
+                                                                                          ItemsSource="{Binding Options}"
+                                                                                          Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                                <TextBox Style="{StaticResource ModelFieldTextStyle}"
+                                                                                         Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                            </Grid>
+                                                                        </StackPanel>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem Header="{loc:Loc Settings.Tab.Scenarios}">
+                    <Grid Margin="0,16,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <DockPanel Grid.Row="0" LastChildFill="False">
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                <Button Width="120" Margin="0,0,12,0" Style="{StaticResource PrimaryActionButtonStyle}" Content="{loc:Loc Settings.Scenarios.Add}" Click="AddScenarioPresetButton_Click" />
+                                <Button Width="140" Margin="0,0,12,0" Style="{StaticResource SecondaryActionButtonStyle}" Content="{loc:Loc Settings.Scenarios.Save}" IsEnabled="{Binding HasSelectedScenarioPreset}" Click="SaveScenarioPresetButton_Click" />
+                                <Button Width="120" Style="{StaticResource SecondaryActionButtonStyle}" Content="{loc:Loc Settings.Scenarios.Delete}" IsEnabled="{Binding HasSelectedScenarioPreset}" Click="DeleteScenarioPresetButton_Click" />
+                            </StackPanel>
+                        </DockPanel>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="420" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Style="{StaticResource ShellCardStyle}" Padding="0">
+                                <DataGrid ItemsSource="{Binding ScenarioPresets}"
+                                          SelectedItem="{Binding SelectedScenarioPreset, Mode=TwoWay}"
+                                          AutoGenerateColumns="False"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          HeadersVisibility="Column"
+                                          GridLinesVisibility="Horizontal"
+                                          RowHeaderWidth="0"
+                                          SelectionMode="Single"
+                                          SelectionUnit="FullRow"
+                                          Background="Transparent"
+                                          BorderThickness="0">
+                                    <DataGrid.Resources>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                                        </Style>
+                                        <Style x:Key="ScenarioTextElementStyle" TargetType="TextBlock">
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                        </Style>
+                                        <Style x:Key="ScenarioTextEditingStyle" TargetType="TextBox">
+                                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                                            <Setter Property="Padding" Value="4,0" />
+                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Style>
+                                    </DataGrid.Resources>
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Setter Property="MinHeight" Value="48" />
+                                            <Setter Property="Background" Value="White" />
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="{loc:Loc Settings.Scenarios.Name}" Binding="{Binding Name, UpdateSourceTrigger=LostFocus}" Width="1.25*" ElementStyle="{StaticResource ScenarioTextElementStyle}" EditingElementStyle="{StaticResource ScenarioTextEditingStyle}" />
+                                        <DataGridTextColumn Header="{loc:Loc Settings.Scenarios.Description}" Binding="{Binding Description, UpdateSourceTrigger=LostFocus}" Width="1.7*" ElementStyle="{StaticResource ScenarioTextElementStyle}" EditingElementStyle="{StaticResource ScenarioTextEditingStyle}" />
+                                        <DataGridTextColumn Header="{loc:Loc Settings.Scenarios.Type}" Binding="{Binding SourceLabel}" Width="80" IsReadOnly="True" ElementStyle="{StaticResource ScenarioTextElementStyle}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Border>
+
+                            <Border Grid.Column="2" Style="{StaticResource ShellCardStyle}">
+                                <Grid DataContext="{Binding SelectedScenarioPreset}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="10" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="12" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="20" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="12" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="{loc:Loc Settings.Scenarios.DetailTitle}" Style="{StaticResource SectionTitleStyle}" FontSize="18" />
+                                    <TextBlock Grid.Row="2" Text="{loc:Loc Settings.Scenarios.DetailDescription}" Style="{StaticResource BodyTextStyle}" TextWrapping="Wrap" />
+
+                                    <Grid Grid.Row="4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="8" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="{loc:Loc Settings.Scenarios.DesignTemplate}" Foreground="#64748B" />
+                                        <TextBox Grid.Row="2" Style="{StaticResource EditorTextBoxStyle}" MinHeight="240" Padding="14,12" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" Text="{Binding DesignPlanningTemplate, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Grid>
+
+                                    <Grid Grid.Row="8">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="8" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="{loc:Loc Settings.Scenarios.ImageTemplate}" Foreground="#64748B" />
+                                        <TextBox Grid.Row="2" Style="{StaticResource EditorTextBoxStyle}" MinHeight="240" Padding="14,12" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" Text="{Binding ImagePlanningTemplate, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Border>
+    </Grid>
+</UserControl>

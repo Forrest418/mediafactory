@@ -1,0 +1,14 @@
+.vs/
+**/bin/
+**/obj/
+**/TestResults/
+*.user
+*.suo
+*.userosscache
+*.db
+*.db-shm
+*.db-wal
+*.log
+ModelProviders.local.json
+GoogleVertex.local.json
+Outputs/

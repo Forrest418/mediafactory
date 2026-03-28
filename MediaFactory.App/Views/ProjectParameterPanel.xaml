@@ -1,0 +1,207 @@
+<UserControl x:Class="Views.ProjectParameterPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="clr-namespace:MediaFactory.Localization">
+    <UserControl.Resources>
+        <Style x:Key="CenteredComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Height" Value="38" />
+            <Setter Property="Padding" Value="8,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+
+        <Style x:Key="CenteredComboBoxItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
+
+    <Border Style="{StaticResource ShellCardStyle}">
+        <StackPanel>
+            <TextBlock Text="{loc:Loc Params.Title}"
+                       Style="{StaticResource SectionTitleStyle}"
+                       FontSize="16" />
+
+            <TextBlock Margin="0,14,0,6" Text="{loc:Loc Params.Scenario}" Foreground="#64748B" />
+            <ComboBox Style="{StaticResource CenteredComboBoxStyle}"
+                      ItemContainerStyle="{StaticResource CenteredComboBoxItemStyle}"
+                      ItemsSource="{Binding AvailableScenarioPresets}"
+                      SelectedValuePath="Id"
+                      DisplayMemberPath="Name"
+                      SelectedValue="{Binding SelectedScenarioPresetId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Margin="0,14,0,6" Text="{loc:Loc Params.Requirements}" Foreground="#64748B" />
+            <TextBox Style="{StaticResource EditorTextBoxStyle}"
+                     Height="126"
+                     AcceptsReturn="True"
+                     Text="{Binding RequirementText, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Margin="0,14,0,6" Text="{loc:Loc Params.TargetLanguage}" Foreground="#64748B" />
+            <ComboBox Style="{StaticResource CenteredComboBoxStyle}"
+                      ItemContainerStyle="{StaticResource CenteredComboBoxItemStyle}"
+                      ItemsSource="{Binding AvailableLanguages}"
+                      SelectedItem="{Binding TargetLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Grid Margin="0,14,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{loc:Loc Params.PlannerProvider}" Foreground="#64748B" Margin="0,0,0,6" />
+                    <ComboBox Style="{StaticResource CenteredComboBoxStyle}"
+                              ItemContainerStyle="{StaticResource CenteredComboBoxItemStyle}"
+                              ItemsSource="{Binding AvailablePlannerProviderOptions}"
+                              SelectedValuePath="Key"
+                              DisplayMemberPath="DisplayName"
+                              SelectedValue="{Binding SelectedPlannerProviderKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="{loc:Loc Params.PlannerModel}" Foreground="#64748B" Margin="0,0,0,6" />
+                    <ComboBox Style="{StaticResource CenteredComboBoxStyle}"
+                              ItemContainerStyle="{StaticResource CenteredComboBoxItemStyle}"
+                              ItemsSource="{Binding AvailablePlannerModelOptions}"
+                              SelectedItem="{Binding SelectedPlannerModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="0,14,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{loc:Loc Params.ImageProvider}" Foreground="#64748B" Margin="0,0,0,6" />
+                    <ComboBox Style="{StaticResource CenteredComboBoxStyle}"
+                              ItemContainerStyle="{StaticResource CenteredComboBoxItemStyle}"
+                              ItemsSource="{Binding AvailableImageProviderOptions}"
+                              SelectedValuePath="Key"
+                              DisplayMemberPath="DisplayName"
+                              SelectedValue="{Binding SelectedImageProviderKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="{loc:Loc Params.ImageModel}" Foreground="#64748B" Margin="0,0,0,6" />
+                    <ComboBox Style="{StaticResource CenteredComboBoxStyle}"
+                              ItemContainerStyle="{StaticResource CenteredComboBoxItemStyle}"
+                              ItemsSource="{Binding AvailableImageModelOptions}"
+                              SelectedItem="{Binding SelectedImageModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="0,14,0,0"
+                  Visibility="{Binding AspectRatioVisibility}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{loc:Loc Params.AspectRatio}" Foreground="#64748B" Margin="0,0,0,6" />
+                    <ComboBox Style="{StaticResource CenteredComboBoxStyle}"
+                              ItemContainerStyle="{StaticResource CenteredComboBoxItemStyle}"
+                              ItemsSource="{Binding AvailableAspectRatios}"
+                              SelectedItem="{Binding SelectedAspectRatio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="{Binding ResolutionLabelText}" Foreground="#64748B" Margin="0,0,0,6" />
+                    <ComboBox Style="{StaticResource CenteredComboBoxStyle}"
+                              ItemContainerStyle="{StaticResource CenteredComboBoxItemStyle}"
+                              ItemsSource="{Binding AvailableImageSizes}"
+                              SelectedItem="{Binding OutputResolution, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Margin="0,14,0,0"
+                        Visibility="{Binding ImageSizeSplitVisibility}">
+                <TextBlock Text="{Binding ResolutionLabelText}" Foreground="#64748B" Margin="0,0,0,6" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Style="{StaticResource EditorTextBoxStyle}"
+                             Text="{Binding CustomImageWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Grid.Column="2"
+                             Style="{StaticResource EditorTextBoxStyle}"
+                             Text="{Binding CustomImageHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </StackPanel>
+
+            <Grid Margin="0,14,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{loc:Loc Params.GenerateCount}" Foreground="#64748B" Margin="0,0,0,6" />
+                    <ComboBox Style="{StaticResource CenteredComboBoxStyle}"
+                              ItemContainerStyle="{StaticResource CenteredComboBoxItemStyle}"
+                              ItemsSource="{Binding AvailableGenerationCounts}"
+                              SelectedItem="{Binding RequestedCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="{loc:Loc Params.DerivativeCount}" Foreground="#64748B" Margin="0,0,0,6" />
+                    <ComboBox Style="{StaticResource CenteredComboBoxStyle}"
+                              ItemContainerStyle="{StaticResource CenteredComboBoxItemStyle}"
+                              ItemsSource="{Binding AvailableDerivativeCounts}"
+                              SelectedItem="{Binding DerivativeImageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="0,14,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{loc:Loc Params.AutoRun}" Foreground="#64748B" Margin="0,0,0,6" />
+                    <Grid MinHeight="38">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Grid.Column="0"
+                                  VerticalAlignment="Top"
+                                  Margin="0,2,0,0"
+                                  IsChecked="{Binding AutoRenderAfterPlan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Grid.Column="2"
+                                   VerticalAlignment="Center"
+                                   Foreground="#0F172A"
+                                   TextWrapping="Wrap"
+                                   Text="{loc:Loc Params.AutoRunDescription}" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Column="2" />
+            </Grid>
+
+            <Button Margin="0,18,0,0"
+                    Style="{StaticResource PrimaryActionButtonStyle}"
+                    Content="{Binding PlanButtonText}"
+                    Background="{Binding PlanButtonBackground}"
+                    BorderBrush="{Binding PlanButtonBackground}"
+                    IsEnabled="{Binding CanGeneratePlan}"
+                    Click="GeneratePlanButton_Click" />
+
+            <Button Margin="0,12,0,0"
+                    Style="{StaticResource PrimaryActionButtonStyle}"
+                    Content="{Binding ImageButtonText}"
+                    Background="{Binding ImageButtonBackground}"
+                    BorderBrush="{Binding ImageButtonBackground}"
+                    IsEnabled="{Binding CanGenerateImages}"
+                    Click="GenerateImagesButton_Click" />
+
+            <Button Margin="0,12,0,0"
+                    Style="{StaticResource SecondaryActionButtonStyle}"
+                    Content="{loc:Loc Params.OpenOutput}"
+                    IsEnabled="{Binding CanOpenOutputDirectory}"
+                    Click="OpenOutputDirectoryButton_Click" />
+        </StackPanel>
+    </Border>
+</UserControl>

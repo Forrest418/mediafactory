@@ -1,0 +1,73 @@
+<UserControl x:Class="Views.ProjectOverviewCardPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="clr-namespace:MediaFactory.Localization">
+    <Border Style="{StaticResource ShellCardStyle}" Background="#F8FBFF" MinHeight="220">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="12" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="14" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="12" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="{loc:Loc Overview.Title}" Style="{StaticResource SectionTitleStyle}" FontSize="15" />
+
+            <TextBlock Grid.Row="2"
+                       Text="{Binding StatusMessage}"
+                       Style="{StaticResource BodyTextStyle}"
+                       TextWrapping="Wrap"
+                       MinHeight="22" />
+
+            <TextBlock Grid.Row="4"
+                       Text="{Binding ExecutionSummary}"
+                       Style="{StaticResource BodyTextStyle}"
+                       TextWrapping="Wrap"
+                       MinHeight="40" />
+
+            <Grid Grid.Row="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{loc:Loc Overview.SourceCount}" Foreground="#64748B" FontSize="12" />
+                    <TextBlock Margin="0,4,0,0"
+                               Text="{Binding LoadedImageCountText}"
+                               Style="{StaticResource SectionTitleStyle}"
+                               FontSize="22" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="{loc:Loc Overview.PlanCount}" Foreground="#64748B" FontSize="12" />
+                    <TextBlock Margin="0,4,0,0"
+                               Text="{Binding RequestedCount}"
+                               Style="{StaticResource SectionTitleStyle}"
+                               FontSize="22" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding LocalizedStageText}"
+                           Foreground="#2563EB"
+                           FontFamily="Microsoft YaHei UI Semibold"
+                           VerticalAlignment="Center" />
+                <ProgressBar Grid.Column="1"
+                             Width="84"
+                             Height="6"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Center"
+                             IsIndeterminate="True"
+                             Visibility="{Binding BusyVisibility}" />
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

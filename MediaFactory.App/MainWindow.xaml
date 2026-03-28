@@ -1,0 +1,459 @@
+<Window x:Class="MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="clr-namespace:MediaFactory.Localization"
+        xmlns:views="clr-namespace:MediaFactory.Views"
+        Title="{loc:Loc App.Name}"
+        Width="1640"
+        Height="1040"
+        MinWidth="1380"
+        MinHeight="860"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource StudioPageBackgroundBrush}">
+    <Window.Resources>
+        <DataTemplate x:Key="ProjectHallTemplate">
+            <views:ProjectHallView />
+        </DataTemplate>
+        <DataTemplate x:Key="TaskQueueTemplate">
+            <views:TaskQueueView />
+        </DataTemplate>
+        <DataTemplate x:Key="MediaLibraryTemplate">
+            <views:MediaLibraryView />
+        </DataTemplate>
+        <DataTemplate x:Key="SystemSettingsTemplate">
+            <views:SystemSettingsView />
+        </DataTemplate>
+        <DataTemplate x:Key="WorkspaceTemplate">
+            <views:ProjectWorkspaceView />
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="74" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="264" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Background="{DynamicResource StudioSurfaceBrush}"
+                BorderBrush="{DynamicResource StudioCardBorderBrush}"
+                BorderThickness="0,0,0,1">
+            <Grid Margin="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="320" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="{loc:Loc App.Name}"
+                               FontSize="20"
+                               FontFamily="Segoe UI Semibold"
+                               Foreground="#0F172A" FontWeight="Bold" />
+                    <TextBlock Margin="0,3,0,0"
+                               Text="{Binding CurrentPageTitle}"
+                               Foreground="#64748B"
+                               FontSize="12" />
+                </StackPanel>
+
+                <Grid Grid.Column="2" VerticalAlignment="Center">
+                    <TextBox Height="40"
+                             Background="#F8FAFC"
+                             BorderBrush="#D8E1EE"
+                             BorderThickness="1"
+                             Padding="14,0"
+                             FontSize="14"
+                             VerticalContentAlignment="Center"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Margin="16,0,0,0"
+                               VerticalAlignment="Center"
+                               Foreground="#94A3B8"
+                               FontSize="13"
+                               IsHitTestVisible="False"
+                               Text="{loc:Loc Main.SearchPlaceholder}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SearchText}" Value="">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SearchText}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+
+                <Button Grid.Column="4"
+                        Width="120"
+                        Height="40"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource PrimaryActionButtonStyle}"
+                        Content="{loc:Loc Main.NewProject}"
+                        Click="NewProjectButton_Click" />
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Background="{DynamicResource StudioSurfaceBrush}"
+                BorderBrush="{DynamicResource StudioCardBorderBrush}"
+                BorderThickness="0,0,1,0">
+            <Grid Margin="16,18,16,18">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="18" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="18" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel>
+                    <TextBlock Margin="0,14,0,0"
+                               Text="{loc:Loc Main.SidebarTitle}"
+                               Style="{StaticResource SectionTitleStyle}"
+                               FontSize="24" FontWeight="Bold" />
+                    <TextBlock Margin="0,4,0,0"
+                               Text="{loc:Loc Main.SidebarSubtitle}"
+                               Style="{StaticResource BodyTextStyle}"
+                               FontSize="12" />
+                </StackPanel>
+
+                <Border Grid.Row="2"
+                        Background="#F8FAFC"
+                        BorderBrush="#E2E8F0"
+                        BorderThickness="1"
+                        CornerRadius="16"
+                        Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Background="#EEF4FF" CornerRadius="12" Padding="10,8">
+                            <StackPanel>
+                                <TextBlock Text="{loc:Loc Main.Stat.Active}" Foreground="#64748B" FontSize="11" HorizontalAlignment="Center" />
+                                <TextBlock Margin="0,4,0,0"
+                                           Text="{Binding ActiveProjectCount}"
+                                           Foreground="#1D4ED8"
+                                           FontFamily="Microsoft YaHei UI Semibold"
+                                           FontSize="18"
+                                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="2" Background="#FFF7ED" CornerRadius="12" Padding="10,8">
+                            <StackPanel>
+                                <TextBlock Text="{loc:Loc Main.Stat.Generating}" Foreground="#64748B" FontSize="11" HorizontalAlignment="Center" />
+                                <TextBlock Margin="0,4,0,0"
+                                           Text="{Binding RenderingProjectCount}"
+                                           Foreground="#C2410C"
+                                           FontFamily="Microsoft YaHei UI Semibold"
+                                           FontSize="18"
+                                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="4" Background="#F0FDF4" CornerRadius="12" Padding="10,8">
+                            <StackPanel>
+                                <TextBlock Text="{loc:Loc Main.Stat.Average}" Foreground="#64748B" FontSize="11" HorizontalAlignment="Center" />
+                                <TextBlock Margin="0,4,0,0"
+                                           Text="{Binding AverageProgressText}"
+                                           Foreground="#059669"
+                                           FontFamily="Microsoft YaHei UI Semibold"
+                                           FontSize="18"
+                                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <StackPanel Grid.Row="4">
+                    <Button Click="ProjectHallNavButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsProjectHallPage}" Value="True">
+                                        <Setter Property="Background" Value="#EEF4FF" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="P" FontSize="17" FontFamily="Segoe UI Semibold" Foreground="#2563EB" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{loc:Loc Main.Nav.ProjectHall}" Foreground="#0F172A" FontFamily="Microsoft YaHei UI Semibold" VerticalAlignment="Center" FontWeight="Bold" />
+                        </Grid>
+                    </Button>
+
+                    <Button Click="TaskQueueNavButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsTaskQueuePage}" Value="True">
+                                        <Setter Property="Background" Value="#EEF4FF" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Q" FontSize="17" FontFamily="Segoe UI Semibold" Foreground="#2563EB" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{loc:Loc Main.Nav.TaskQueue}" Foreground="#0F172A" FontFamily="Microsoft YaHei UI Semibold" VerticalAlignment="Center" FontWeight="Bold" />
+                        </Grid>
+                    </Button>
+
+                    <Button Click="MediaLibraryNavButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMediaLibraryPage}" Value="True">
+                                        <Setter Property="Background" Value="#EEF4FF" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="M" FontSize="17" FontFamily="Segoe UI Semibold" Foreground="#2563EB" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{loc:Loc Main.Nav.MediaLibrary}" Foreground="#0F172A" FontFamily="Microsoft YaHei UI Semibold" VerticalAlignment="Center" FontWeight="Bold" />
+                        </Grid>
+                    </Button>
+
+                    <Button Click="SystemSettingsNavButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSystemSettingsPage}" Value="True">
+                                        <Setter Property="Background" Value="#EEF4FF" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="S" FontSize="17" FontFamily="Segoe UI Semibold" Foreground="#2563EB" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{loc:Loc Main.Nav.SystemSettings}" Foreground="#0F172A" FontFamily="Microsoft YaHei UI Semibold" VerticalAlignment="Center" FontWeight="Bold" />
+                        </Grid>
+                    </Button>
+                </StackPanel>
+
+                <Border Grid.Row="6"
+                        Background="#F8FAFC"
+                        BorderBrush="#E2E8F0"
+                        BorderThickness="1"
+                        CornerRadius="16"
+                        Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="{loc:Loc Main.CurrentSummary}"
+                                   Style="{StaticResource SectionTitleStyle}"
+                                   FontSize="14" />
+                        <TextBlock Margin="0,8,0,0"
+                                   Text="{Binding CurrentPageDescription}"
+                                   Style="{StaticResource BodyTextStyle}"
+                                   FontSize="12"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1"
+                Grid.Column="1"
+                Margin="22,12,22,0"
+                Background="{DynamicResource StudioSurfaceBrush}"
+                BorderBrush="{DynamicResource StudioCardBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="16"
+                Padding="12,10">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasOpenWorkspaceProjects}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" CanContentScroll="True">
+                <ListBox x:Name="WorkspaceTabsListBox"
+                         ItemsSource="{Binding OpenWorkspaceProjects}"
+                         SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                         SelectionChanged="WorkspaceTabsListBox_SelectionChanged">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0,0,10,0" />
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="TabBorder"
+                                                Background="White"
+                                                BorderBrush="#D7DFEB"
+                                                BorderThickness="1"
+                                                CornerRadius="12"
+                                                Padding="12,9">
+                                            <ContentPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="TabBorder" Property="Background" Value="#F8FAFC" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="TabBorder" Property="Background" Value="#EFF6FF" />
+                                                <Setter TargetName="TabBorder" Property="BorderBrush" Value="#60A5FA" />
+                                                <Setter TargetName="TabBorder" Property="BorderThickness" Value="1.5" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid MinWidth="138">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="22" />
+                                </Grid.ColumnDefinitions>
+
+                                <Ellipse x:Name="StatusDot" Grid.Column="0" Width="8" Height="8" Fill="{Binding StageBrush}" VerticalAlignment="Center" />
+
+                                <Button Grid.Column="2"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Padding="0"
+                                        Cursor="Hand"
+                                        HorizontalContentAlignment="Left"
+                                        Tag="{Binding}"
+                                        Click="WorkspaceTabButton_Click">
+                                    <TextBlock Text="{Binding ProjectName}" Foreground="#0F172A" FontFamily="Microsoft YaHei UI Semibold" FontSize="13" TextTrimming="CharacterEllipsis" />
+                                </Button>
+
+                                <Button Grid.Column="4"
+                                        Width="22"
+                                        Height="22"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0"
+                                        Padding="0"
+                                        Cursor="Hand"
+                                        Tag="{Binding}"
+                                        Click="CloseWorkspaceTabButton_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="CloseBorder" Background="Transparent" CornerRadius="11">
+                                                <TextBlock Text="&#xE711;" Foreground="#64748B" FontSize="11" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="CloseBorder" Property="Background" Value="#E2E8F0" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="CloseBorder" Property="Background" Value="#CBD5E1" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding HasRetryableFailures}" Value="True">
+                                    <Setter TargetName="StatusDot" Property="Fill" Value="#DC2626" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Border>
+
+        <ContentControl Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="22,18,22,18"
+                        Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Setter Property="ContentTemplate" Value="{StaticResource ProjectHallTemplate}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsWorkspacePage}" Value="True">
+                            <Setter Property="ContentTemplate" Value="{StaticResource WorkspaceTemplate}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsTaskQueuePage}" Value="True">
+                            <Setter Property="ContentTemplate" Value="{StaticResource TaskQueueTemplate}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsMediaLibraryPage}" Value="True">
+                            <Setter Property="ContentTemplate" Value="{StaticResource MediaLibraryTemplate}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsSystemSettingsPage}" Value="True">
+                            <Setter Property="ContentTemplate" Value="{StaticResource SystemSettingsTemplate}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+
+        <Border Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Background="{DynamicResource StudioSurfaceBrush}"
+                BorderBrush="{DynamicResource StudioCardBorderBrush}"
+                BorderThickness="0,1,0,0">
+            <Grid Margin="18,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center" Foreground="#64748B" FontSize="12" Text="{Binding StatusBarSummary}" />
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Foreground="#94A3B8" FontSize="12" Text="{loc:Loc Main.Footer.ProfessionalEdition}" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
