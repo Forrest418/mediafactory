@@ -1,5 +1,12 @@
 # MediaFactory
 
+Batch image creation with one reference image and one simple request.
+
+[![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4)](https://dotnet.microsoft.com/)
+[![WPF](https://img.shields.io/badge/UI-WPF-0C7CD5)](https://learn.microsoft.com/dotnet/desktop/wpf/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Languages](https://img.shields.io/badge/UI-English%20%7C%20Chinese-2F855A)](#中文)
+
 [English](#english) | [中文](#中文)
 
 ## English
@@ -63,9 +70,11 @@ dotnet run --project .\MediaFactory.App\MediaFactory.App.vbproj
 
 ## 中文
 
+一张参考图，一句简单要求，快速批量生成图片。
+
 MediaFactory 是一个基于 WPF 的桌面应用，基于大模型和工作流，批量生成图片的桌面程序。
 
-它最大的特色是批量生成。只需要提交一张参考图片和一句简单的要求，就可以批量生成图片。
+它最大的特色是批量生成，只需要提交一张参考图片和一句简单的要求，就可以批量生成图片。
 
 角色和场景可以在系统配置中设定，可以配置任意场景，例如电商、小红书、知乎、旅游、博客等等。
 
